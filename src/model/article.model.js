@@ -2,25 +2,26 @@ const { DataTypes } = require('sequelize')//DataTypes字段类型
 const seq = require('../db/seq')
 
 // 定义表名、字段、数据类型、限制条件、描述
+
 // 文章分类-表
 const ArticleClass = seq.define('myblog_article_class', {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        comment: '分类的名称'
+        comment: '分类的名称',
     },
     type: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        comment: '分类的类型key'
+        comment: '分类的类型key',
     },
     count: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
-        comment: '该分类文章的数量'
-    }
+        comment: '该分类文章的数量',
+    },
 })
 
 const Article = seq.define('myblog_article', {

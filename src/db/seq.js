@@ -11,6 +11,11 @@ const {
 const seq = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
     host: MYSQL_HOST,
     dialect: 'mysql',//数据库类型
+    dialectOptions: {
+        dateStrings: true,
+        typeCast: true
+    },
+    timezone: '+08:00' //改为标准时区
 })
 //测试连接
 seq.authenticate().then(() => {

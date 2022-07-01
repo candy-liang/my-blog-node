@@ -2,8 +2,10 @@
 
 const {
     createArticleClass,
+    deleteArticleClass,
     getArticleClass,
     createArticle,
+    deleteArticle,
     getArticleList
 } = require('../service/article.service')
 
@@ -15,6 +17,26 @@ class ArticleController {
         ctx.body = {
             code: 0,
             message: '创建文章分类成功',
+            result: ''
+        }
+    }
+    // 删除文章分类
+    async deleteArticleClass(ctx, next) {
+        const { type } = ctx.request.body
+        const res = await deleteArticleClass(type)
+        ctx.body = {
+            code: 0,
+            message: '删除文章分类成功',
+            result: ''
+        }
+    }
+    // 删除文章分类
+    async deleteArticle(ctx, next) {
+        const { id } = ctx.request.body
+        const res = await deleteArticle(id)
+        ctx.body = {
+            code: 0,
+            message: '删除文章成功',
             result: ''
         }
     }
@@ -40,8 +62,8 @@ class ArticleController {
     // 获取文章列表
     async getArticleList(ctx, next) {
         console.log(ctx.request.body);
-        const { type, current_page = 1, page_size = 5 } = ctx.request.body
-        const res = await getArticleList(type, current_page, page_size)
+        const { type, current_page = 1, page_size = 5, key } = ctx.request.body
+        const res = await getArticleList(type, current_page, page_size, key)
         ctx.body = {
             code: 0,
             message: '获取文章列表成功',
