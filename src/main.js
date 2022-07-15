@@ -3,7 +3,7 @@ const { APP_PORT } = require('../config/config.default')
 const app = require('./app/index')
 
 app.use((ctx, next) => {
-    ctx.body = 'hello 111word'
+    ctx.body = 'hello word'
 })
 
 app.listen(APP_PORT, () => {
