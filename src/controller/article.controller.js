@@ -6,6 +6,8 @@ const {
     getArticleClass,
     createArticle,
     deleteArticle,
+    getArticleDetail,
+    updateArticleDetail,
     getArticleList
 } = require('../service/article.service')
 
@@ -30,16 +32,6 @@ class ArticleController {
             result: ''
         }
     }
-    // 删除文章分类
-    async deleteArticle(ctx, next) {
-        const { id } = ctx.request.body
-        const res = await deleteArticle(id)
-        ctx.body = {
-            code: 0,
-            message: '删除文章成功',
-            result: ''
-        }
-    }
     // 获取文章分类
     async getArticleClass(ctx, next) {
         const res = await getArticleClass()
@@ -49,6 +41,7 @@ class ArticleController {
             result: res
         }
     }
+
     // 创建文章
     async createArticle(ctx, next) {
         const { title, type, tag, description, md_html, catalog_list } = ctx.request.body
@@ -59,14 +52,43 @@ class ArticleController {
             result: ''
         }
     }
+    // 删除文章
+    async deleteArticle(ctx, next) {
+        const { id } = ctx.request.body
+        const res = await deleteArticle(id)
+        ctx.body = {
+            code: 0,
+            message: '删除文章成功',
+            result: ''
+        }
+    }
     // 获取文章列表
     async getArticleList(ctx, next) {
-        console.log(ctx.request.body);
         const { type, current_page = 1, page_size = 5, key } = ctx.request.body
         const res = await getArticleList(type, current_page, page_size, key)
         ctx.body = {
             code: 0,
             message: '获取文章列表成功',
+            result: res
+        }
+    }
+    // 获取文章详情
+    async getArticleDetail(ctx, next) {
+        const { id } = ctx.request.body
+        const res = await getArticleDetail(id)
+        ctx.body = {
+            code: 0,
+            message: '获取文章详情成功',
+            result: res
+        }
+    }
+    // 修改文章详情
+    async updateArticleDetail(ctx, next) {
+        const { id, md_html, text,catalogList } = ctx.request.body
+        const res = await updateArticleDetail(id, md_html, text,catalogList)
+        ctx.body = {
+            code: 0,
+            message: '修改文章详情成功',
             result: res
         }
     }

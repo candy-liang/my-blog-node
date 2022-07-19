@@ -36,23 +36,34 @@ const Article = seq.define('myblog_article', {
         allowNull: false,
         comment: '文章所属分类'
     },
-    tag: {
-        type: DataTypes.STRING,
-        comment: '文章所属标签'
-    },
     description: {
         type: DataTypes.STRING,
+        defaultValue: '',
         comment: '文章描述'
     },
-    md_html: {
+    catalogList: {
         type: DataTypes.STRING,
+        defaultValue: '',
+        comment: '文章目录'
+    },
+    text: {
+        type: DataTypes.TEXT,
+        defaultValue: '',
+        comment: '文章详情编辑文本'
+    },
+    md_html: {
+        type: DataTypes.TEXT,
+        defaultValue: '',
         comment: '文章详情html'
     },
-    catalog_list: {
-        type: DataTypes.STRING,
-        comment: '内容目录'
-    },
 })
+
+ArticleClass.hasMany(Article, {
+    foreignKey: 'type',
+    sourceKey: 'type',
+    as: "counts"
+});
+
 
 // ArticleClass.sync({ force: true })//强制同步-可用于创建表
 module.exports = { ArticleClass, Article }
