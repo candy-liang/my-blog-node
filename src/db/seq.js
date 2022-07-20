@@ -11,6 +11,7 @@ const {
 const seq = new Sequelize(MYSQL_DB, MYSQL_USER, MYSQL_PWD, {
     host: MYSQL_HOST,
     dialect: 'mysql',//数据库类型
+    port: MYSQL_PORT,
     dialectOptions: {
         dateStrings: true,
         typeCast: true

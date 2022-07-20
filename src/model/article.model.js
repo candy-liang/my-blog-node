@@ -65,5 +65,5 @@ ArticleClass.hasMany(Article, {
 });
 
 
-// ArticleClass.sync({ force: true })//强制同步-可用于创建表
+// Article.sync({ force: true })//强制同步-可用于创建表
 module.exports = { ArticleClass, Article }
