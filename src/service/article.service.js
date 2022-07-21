@@ -22,10 +22,29 @@ class ArticleService {
                 as: "counts"
             }]
         });
+        // const total = await Article.count()
+        const all = {
+            id: '-',
+            name: '全部分类',
+            type: 'all',
+            count: await Article.count(),
+            createdAt: "—",
+            updatedAt: "-"
+        }
         res.forEach(v => {
             v.count = v.counts.length
         })
-        res[0].count = await Article.count()
+        res.unshift(all)
+        return res
+    }
+    // 查询文章
+    async getHotArticleList() {
+        const res = await Article.findAll({
+            limit: 5,
+            offset: 0,
+            order: [['view_count', 'DESC']],//倒序
+            attributes: { exclude: ['md_html', 'text'] }
+        })//查询
         return res
     }
     // 查询文章
@@ -45,10 +64,17 @@ class ArticleService {
         return { list, total }
     }
 
-    // 创建文章
-    async createArticle(title, type, tag, description, md_html, catalog_list) {
-        const res = await Article.create({ title, type, tag, description, md_html, catalog_list })//增
-        return res
+    // 创建文章/修改文章简要
+    async createArticle(id, title, type, description) {
+        if (id) {
+            const res = await Article.update({ title, type, description }, {
+                where: { id: id }
+            })
+            return res
+        } else {
+            const res = await Article.create({ title, type, description })//增
+            return res
+        }
     }
     // 删除文章
     async deleteArticle(id) {
@@ -58,13 +84,14 @@ class ArticleService {
     }
     // 获取单个文章
     async getArticleDetail(id) {
+        await Article.increment({ view_count: 1 }, { where: { id: id } })
         return await Article.findOne({
             where: { id: id }
         })
     }
-    // 获取单个文章
-    async updateArticleDetail(id, md_html, text, catalogList) {
-        return await Article.update({ md_html, text, catalogList }, {
+    // 修改单个文章详情
+    async updateArticleDetail(id, md_html, text) {
+        return await Article.update({ md_html, text }, {
             where: { id: id }
         })
     }

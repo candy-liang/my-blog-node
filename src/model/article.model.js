@@ -41,20 +41,20 @@ const Article = seq.define('myblog_article', {
         defaultValue: '',
         comment: '文章描述'
     },
-    catalogList: {
-        type: DataTypes.STRING,
-        defaultValue: '',
-        comment: '文章目录'
-    },
     text: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT('long'),
         defaultValue: '',
         comment: '文章详情编辑文本'
     },
     md_html: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT('long'),
         defaultValue: '',
         comment: '文章详情html'
+    },
+    view_count: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        comment: '文章被浏览次数'
     },
 })
 
@@ -65,5 +65,5 @@ ArticleClass.hasMany(Article, {
 });
 
 
-// Article.sync({ force: true })//强制同步-可用于创建表
+// seq.sync({ force: true })//强制同步-可用于创建表
 module.exports = { ArticleClass, Article }

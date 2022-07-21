@@ -8,6 +8,7 @@ const {
     deleteArticle,
     getArticleDetail,
     updateArticleDetail,
+    getHotArticleList,
     getArticleList
 } = require('../service/article.service')
 
@@ -44,11 +45,11 @@ class ArticleController {
 
     // 创建文章
     async createArticle(ctx, next) {
-        const { title, type, tag, description, md_html, catalog_list } = ctx.request.body
-        const res = await createArticle(title, type, tag, description, md_html, catalog_list)
+        const { id, title, type, description } = ctx.request.body
+        const res = await createArticle(id, title, type, description)
         ctx.body = {
             code: 0,
-            message: '创建文章成功',
+            message: '创建/修改文章简要成功',
             result: ''
         }
     }
@@ -72,6 +73,15 @@ class ArticleController {
             result: res
         }
     }
+    // 获取热门文章列表
+    async getHotArticleList(ctx, next) {
+        const res = await getHotArticleList()
+        ctx.body = {
+            code: 0,
+            message: '获取热门文章列表成功',
+            result: res
+        }
+    }
     // 获取文章详情
     async getArticleDetail(ctx, next) {
         const { id } = ctx.request.body
@@ -84,8 +94,8 @@ class ArticleController {
     }
     // 修改文章详情
     async updateArticleDetail(ctx, next) {
-        const { id, md_html, text,catalogList } = ctx.request.body
-        const res = await updateArticleDetail(id, md_html, text,catalogList)
+        const { id, md_html, text } = ctx.request.body
+        const res = await updateArticleDetail(id, md_html, text)
         ctx.body = {
             code: 0,
             message: '修改文章详情成功',

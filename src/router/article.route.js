@@ -9,6 +9,7 @@ const {
     deleteArticle,
     getArticleDetail,
     updateArticleDetail,
+    getHotArticleList,
     getArticleList
 } = require('../controller/article.controller')
 
@@ -21,5 +22,6 @@ router.post('/createArticle', createArticle)
 router.post('/getArticleList', getArticleList)
 router.post('/getArticleDetail', getArticleDetail)
 router.post('/updateArticleDetail', updateArticleDetail)
+router.post('/getHotArticleList', getHotArticleList)
 
 module.exports = router
