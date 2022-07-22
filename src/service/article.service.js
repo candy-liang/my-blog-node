@@ -37,10 +37,10 @@ class ArticleService {
         res.unshift(all)
         return res
     }
-    // 查询文章
+    // 获取热门文章
     async getHotArticleList() {
         const res = await Article.findAll({
-            limit: 5,
+            limit: 8,
             offset: 0,
             order: [['view_count', 'DESC']],//倒序
             attributes: { exclude: ['md_html', 'text'] }
@@ -95,9 +95,5 @@ class ArticleService {
             where: { id: id }
         })
     }
-
-
-
-
 }
 module.exports = new ArticleService()
