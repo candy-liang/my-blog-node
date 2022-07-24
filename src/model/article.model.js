@@ -22,6 +22,11 @@ const ArticleClass = seq.define('myblog_article_class', {
         defaultValue: 0,
         comment: '该分类文章的数量',
     },
+    sort: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        comment: '排序权重',
+    },
 })
 
 const Article = seq.define('myblog_article', {
@@ -55,6 +60,11 @@ const Article = seq.define('myblog_article', {
         type: DataTypes.INTEGER,
         defaultValue: 0,
         comment: '文章被浏览次数'
+    },
+    sort: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        comment: '排序权重',
     },
 })
 

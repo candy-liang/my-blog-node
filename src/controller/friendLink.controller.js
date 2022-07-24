@@ -29,8 +29,11 @@ class FriendLinkController {
     }
     // 获取友链
     async getFriendLink(ctx, next) {
-        const { current_page = 1, page_size = 5, key } = ctx.request.body
+        const { current_page = 1, page_size = 5, key, type } = ctx.request.body
         const res = await getFriendLink(current_page, page_size, key)
+        if (type == 'show') {
+            res.list = res.list.filter(v => v.status == 'show')
+        }
         ctx.body = {
             code: 0,
             message: '获取友链成功',
@@ -38,6 +41,6 @@ class FriendLinkController {
         }
     }
 
-   
+
 }
 module.exports = new FriendLinkController()

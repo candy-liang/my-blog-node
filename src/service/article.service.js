@@ -3,40 +3,62 @@
 const { Article, ArticleClass } = require('../model/article.model')//引入对应的表
 const { Op } = require("sequelize");
 class ArticleService {
-    // 创建文章分类
-    async createArticleClass(name, type) {
-        return await ArticleClass.create({ name, type })
+    // 创建/修改文章分类
+    async createArticleClass(id, name, type, old_type, sort) {
+        if (id) {
+
+            const res = await ArticleClass.update({ name, type, sort }, {
+                where: { id: id }
+            })
+            if (old_type && type != old_type) {
+                await Article.update({ type }, { where: { type: old_type } })
+            }
+            return res
+        } else {
+            const res = await ArticleClass.create({ name, type, sort })//增
+            return res
+        }
+
     }
+
     // 删除文章分类
     async deleteArticleClass(type) {
         return await ArticleClass.destroy({
             where: { type: { [Op.or]: [...type] } }
         })
     }
+
     // 获取文章分类
     async getArticleClass() {
-        const res = await ArticleClass.findAll({
-            order: [['createdAt']],//倒序
-            include: [{
-                model: Article,
-                as: "counts"
-            }]
-        });
-        // const total = await Article.count()
-        const all = {
-            id: '-',
-            name: '全部分类',
-            type: 'all',
-            count: await Article.count(),
-            createdAt: "—",
-            updatedAt: "-"
+        try {
+            const res = await ArticleClass.findAll({
+                order: [['createdAt']],//倒序
+                include: [{
+                    model: Article,
+                    as: "counts"
+                }]
+            });
+            // const total = await Article.count()
+            const all = {
+                id: '-',
+                name: '全部分类',
+                type: 'all',
+                count: await Article.count(),
+                createdAt: "—",
+                updatedAt: "—",
+                sort: 101
+            }
+            res.forEach(v => {
+                v.count = v.counts.length
+            })
+            res.unshift(all)
+            return res
+        } catch (error) {
+            console.log(error);
         }
-        res.forEach(v => {
-            v.count = v.counts.length
-        })
-        res.unshift(all)
-        return res
+
     }
+
     // 获取热门文章
     async getHotArticleList() {
         const res = await Article.findAll({
@@ -47,6 +69,7 @@ class ArticleService {
         })//查询
         return res
     }
+
     // 查询文章
     async getArticleList(type, current_page, page_size, key) {
         let whereObj = {}
@@ -65,30 +88,33 @@ class ArticleService {
     }
 
     // 创建文章/修改文章简要
-    async createArticle(id, title, type, description) {
+    async createArticle(id, title, type, description, sort) {
         if (id) {
-            const res = await Article.update({ title, type, description }, {
+            const res = await Article.update({ title, type, description, sort }, {
                 where: { id: id }
             })
             return res
         } else {
-            const res = await Article.create({ title, type, description })//增
+            const res = await Article.create({ title, type, description, sort })//增
             return res
         }
     }
+
     // 删除文章
     async deleteArticle(id) {
         return await Article.destroy({
             where: { id: { [Op.or]: [...id] } }
         })
     }
-    // 获取单个文章
+
+    // 获取单个文章详情
     async getArticleDetail(id) {
         await Article.increment({ view_count: 1 }, { where: { id: id } })
         return await Article.findOne({
             where: { id: id }
         })
     }
+
     // 修改单个文章详情
     async updateArticleDetail(id, md_html, text) {
         return await Article.update({ md_html, text }, {

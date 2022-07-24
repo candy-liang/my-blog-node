@@ -15,8 +15,9 @@ const {
 class ArticleController {
     // 创建文章分类
     async createArticleClass(ctx, next) {
-        const { name, type } = ctx.request.body
-        const res = await createArticleClass(name, type)
+        const { id, name, type, old_type, sort } = ctx.request.body
+        console.log(name, type, sort);
+        const res = await createArticleClass( id, name, type, old_type, sort)
         ctx.body = {
             code: 0,
             message: '创建文章分类成功',
@@ -45,8 +46,8 @@ class ArticleController {
 
     // 创建文章
     async createArticle(ctx, next) {
-        const { id, title, type, description } = ctx.request.body
-        const res = await createArticle(id, title, type, description)
+        const { id, title, type, description, sort } = ctx.request.body
+        const res = await createArticle(id, title, type, description, sort)
         ctx.body = {
             code: 0,
             message: '创建/修改文章简要成功',
