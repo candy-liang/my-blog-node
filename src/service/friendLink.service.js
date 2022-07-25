@@ -25,13 +25,13 @@ class FriendLinkService {
     async getFriendLink(current_page, page_size, key) {
         let whereObj = {}
         key && Object.assign(whereObj, { name: { [Op.like]: `%${key}%` } });// 加入模糊查询
+        const total = await friendLink.count({ where: whereObj })
         const list = await friendLink.findAll({
             where: whereObj,
             limit: page_size,
             offset: (current_page - 1) * page_size,
             order: [['createdAt']]
         })
-        const total = await friendLink.count({ where: whereObj })
         return { list, total }
     }
 
