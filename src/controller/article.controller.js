@@ -17,7 +17,7 @@ class ArticleController {
     async createArticleClass(ctx, next) {
         const { id, name, type, old_type, sort } = ctx.request.body
         console.log(name, type, sort);
-        const res = await createArticleClass( id, name, type, old_type, sort)
+        const res = await createArticleClass(id, name, type, old_type, sort)
         ctx.body = {
             code: 0,
             message: '创建文章分类成功',
@@ -36,18 +36,22 @@ class ArticleController {
     }
     // 获取文章分类
     async getArticleClass(ctx, next) {
-        const res = await getArticleClass()
+        const list = await getArticleClass()
+        let label = {}
+        list.forEach(v => {
+            label[v.type] = v.name
+        })
         ctx.body = {
             code: 0,
             message: '获取分类成功',
-            result: res
+            result: { list, label }
         }
     }
 
     // 创建文章
     async createArticle(ctx, next) {
-        const { id, title, type, description, sort } = ctx.request.body
-        const res = await createArticle(id, title, type, description, sort)
+        const { id, title, type, description, sort, poster } = ctx.request.body
+        const res = await createArticle(id, title, type, description, sort, poster)
         ctx.body = {
             code: 0,
             message: '创建/修改文章简要成功',

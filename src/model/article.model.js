@@ -46,6 +46,11 @@ const Article = seq.define('myblog_article', {
         defaultValue: '',
         comment: '文章描述'
     },
+    poster: {
+        type: DataTypes.STRING,
+        defaultValue: '',
+        comment: '文章海报'
+    },
     text: {
         type: DataTypes.TEXT('long'),
         defaultValue: '',
@@ -75,5 +80,5 @@ ArticleClass.hasMany(Article, {
 });
 
 
-// seq.sync({ force: true })//强制同步-可用于创建表
+// Article.sync({ alter: true })//强制同步-可用于创建表
 module.exports = { ArticleClass, Article }
