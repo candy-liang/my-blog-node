@@ -50,8 +50,8 @@ class ArticleController {
 
     // 创建文章
     async createArticle(ctx, next) {
-        const { id, title, type, description, sort, poster } = ctx.request.body
-        const res = await createArticle(id, title, type, description, sort, poster)
+        const { id, title, type, description, sort, poster, status } = ctx.request.body
+        const res = await createArticle(id, title, type, description, sort, poster, status)
         ctx.body = {
             code: 0,
             message: '创建/修改文章简要成功',

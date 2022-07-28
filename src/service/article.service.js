@@ -88,14 +88,14 @@ class ArticleService {
     }
 
     // 创建文章/修改文章简要
-    async createArticle(id, title, type, description, sort, poster) {
+    async createArticle(id, title, type, description, sort, poster, status) {
         if (id) {
-            const res = await Article.update({ title, type, description, sort, poster }, {
+            const res = await Article.update({ title, type, description, sort, poster, status }, {
                 where: { id: id }
             })
             return res
         } else {
-            const res = await Article.create({ title, type, description, sort, poster })//增
+            const res = await Article.create({ title, type, description, sort, poster, status })//增
             return res
         }
     }
