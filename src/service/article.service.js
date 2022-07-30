@@ -114,7 +114,15 @@ class ArticleService {
             where: { id: id }
         })
     }
-
+    async getNearArticle(id) {
+        const list = await Article.findAll({
+            attributes: { include: ['id', 'title'] }
+        })//查询
+        const index = list.findIndex(v => v.id == id)
+        const pre_article = list[index - 1] || ''
+        const next_article = list[index + 1] || ''
+        return { pre_article, next_article }
+    }
     // 修改单个文章详情
     async updateArticleDetail(id, md_html, text) {
         return await Article.update({ md_html, text }, {

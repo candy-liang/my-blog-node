@@ -9,6 +9,7 @@ const {
     getArticleDetail,
     updateArticleDetail,
     getHotArticleList,
+    getNearArticle,
     getArticleList
 } = require('../service/article.service')
 
@@ -91,10 +92,11 @@ class ArticleController {
     async getArticleDetail(ctx, next) {
         const { id } = ctx.request.body
         const res = await getArticleDetail(id)
+        const { pre_article, next_article } = await getNearArticle(id)
         ctx.body = {
             code: 0,
             message: '获取文章详情成功',
-            result: res
+            result: { res, pre_article, next_article }
         }
     }
     // 修改文章详情
