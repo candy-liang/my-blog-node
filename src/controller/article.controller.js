@@ -71,8 +71,8 @@ class ArticleController {
     }
     // 获取文章列表
     async getArticleList(ctx, next) {
-        const { type, current_page = 1, page_size = 5, key } = ctx.request.body
-        const res = await getArticleList(type, current_page, page_size, key)
+        const { type, current_page = 1, page_size = 5, key, isAll } = ctx.request.body
+        const res = await getArticleList(type, current_page, page_size, key, isAll)
         ctx.body = {
             code: 0,
             message: '获取文章列表成功',

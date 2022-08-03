@@ -71,9 +71,10 @@ class ArticleService {
     }
 
     // 查询文章
-    async getArticleList(type, current_page, page_size, key) {
+    async getArticleList(type, current_page, page_size, key, isAll) {
         let whereObj = {}
         type != 'all' && Object.assign(whereObj, { type });
+        !isAll && Object.assign(whereObj, { status: 'show' });
         key && Object.assign(whereObj, { title: { [Op.like]: `%${key}%` } });// 加入模糊查询
 
         const list = await Article.findAll({
